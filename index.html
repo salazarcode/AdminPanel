@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.0/css/bulma.min.css">
+</head>
+<body>
+    <div class="container" id="app">
+        <div class="columns" style="margin-top:50px">
+            <div class="column">
+                <nav class="panel">
+                    <p class="panel-heading">
+                      Dominios
+                    </p>
+                    <a class="panel-block" v-for="dominio in dominios" @click="MostrarDetalleDomino(dominio)">
+                      <span class="panel-icon">
+                        <i class="fa fa-bolt" aria-hidden="true"></i>
+                      </span>
+                      {{dominio.nombre. toUpperCase()}}
+                    </a>
+                    <div class="panel-block">
+                      <button class="button is-link is-outlined is-fullwidth" @click="MostrarFormDominio">
+                        Crear
+                      </button>
+                    </div>
+                </nav>
+            </div>
+            <div class="column">
+                <nav class="panel">
+                    <p class="panel-heading">
+                      Usuarios
+                    </p>
+                    <a class="panel-block" v-for="usuario in usuarios">
+                      <span class="panel-icon">
+                        <i class="fa fa-bolt" aria-hidden="true"></i>
+                      </span>
+                      
+                      {{usuario.name.toUpperCase()}} 
+                      <span class="tag is-success" v-if="usuario.email_verified == 1">Verificado</span>
+                    </a>
+                    <div class="panel-block">
+                      <button class="button is-link is-outlined is-fullwidth" @click="MostrarFormUsuario">
+                        Crear
+                      </button>
+                    </div>
+                </nav>
+            </div>
+            <div class="column">
+                <nav class="panel">
+                    <p class="panel-heading">
+                      Security
+                    </p>                    
+                    <div class="field">
+                        <label class="label">API URL</label>
+                        <div class="control">                            
+                            <input class="input" type="text" placeholder="Text input" v-model="api" disabled>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label class="label">Token</label>
+                        <div class="control">
+                            <textarea class="textarea" v-model="token" disabled>{{token}}</textarea>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+        </div>
+
+
+
+        <div class="modal" id="crear-usuario">
+            <div class="modal-background"></div>
+            <div class="modal-card">
+              <header class="modal-card-head">
+                <p class="modal-card-title">Form usuario</p>
+                <button class="delete" aria-label="close" @click="MostrarFormUsuario"></button>
+              </header>
+              <section class="modal-card-body">
+                    <div class="field">
+                        <label class="label">Name</label>
+                        <div class="control">
+                        <input class="input" type="text" placeholder="Text input" v-model="FormUsuario.name">
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label class="label">Email</label>
+                        <div class="control has-icons-left has-icons-right">
+                          <input class="input" type="email" placeholder="Email input" v-model="FormUsuario.email">
+                          <span class="icon is-small is-left">
+                            <i class="fa fa-envelope"></i>
+                          </span>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label class="label">Rol</label>
+                        <div class="control">
+                          <div class="select">
+                            <select v-model="FormUsuario.rol_id">
+                              <option :value="rol.id" v-for="rol in roles">
+                                  {{rol.nombre}}
+                              </option>
+                            </select>
+                          </div>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <p class="control has-icons-left">
+                          <input class="input" type="password" placeholder="Password"  v-model="FormUsuario.password">
+                          <span class="icon is-small is-left">
+                            <i class="fa fa-lock"></i>
+                          </span>
+                        </p>
+                    </div>
+              </section>
+              <footer class="modal-card-foot">
+                <button class="button is-success" @click="GuardarUsuario($event)">Guardar</button>
+                <button class="button" @click="MostrarFormUsuario">Cancel</button>
+              </footer>
+            </div>
+        </div>
+
+
+        <div class="modal" id="detalle-dominio">
+            <div class="modal-background"></div>
+            <div class="modal-card">
+              <header class="modal-card-head">
+                <p class="modal-card-title">Dominio {{dominioSeleccionado.nombre}}</p>
+                <button class="delete" aria-label="close" @click="MostrarDetalleDomino({nombre:'', valores: []})"></button>
+              </header>
+
+              <section class="modal-card-body">
+                <div class="columns">
+                    <div class="column">
+                        <ol>
+                            <li
+                                v-for="item in dominioSeleccionado.valores"
+                            >{{item.nombre}}</li>
+                        </ol>
+                    </div>
+                    <div class="column">
+                        <div class="field">
+                            <label class="label">Agregar</label>
+                            <div class="control">
+                                <input class="input" type="text" placeholder="Nombre" v-model="dominioDetalle">
+                                <button class="button is-primary is-small" @click="GuardarDominioDetalle($event,dominioSeleccionado.id)">Guardar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+              </section>
+              <footer class="modal-card-foot">
+                <button class="button"  @click="MostrarDetalleDomino({nombre:'', valores: []})">Cancel</button>
+              </footer>
+            </div>
+        </div>
+
+
+        <div class="modal" id="crear-dominio">
+            <div class="modal-background"></div>
+            <div class="modal-card">
+              <header class="modal-card-head">
+                <p class="modal-card-title">Form Dominio</p>
+                <button class="delete" aria-label="close" @click="MostrarFormDominio"></button>
+              </header>
+              <section class="modal-card-body">
+                  
+              <div class="field">
+                <label class="label">Nombre</label>
+                <div class="control">
+                <input class="input" type="text" placeholder="Text input" v-model="FormDominio.nombre">
+                </div>
+              </div>
+              </section>
+
+              <footer class="modal-card-foot">                  
+                <button class="button is-success" @click="GuardarDominio($event)">Guardar</button>
+                <button class="button"  @click="MostrarFormDominio">Cancel</button>
+              </footer>
+            </div>
+        </div>
+    </div>
+    <script
+    src="https://code.jquery.com/jquery-3.5.1.min.js"
+    integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
+    crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+    <script src="index.js"></script>
+</body>
+</html>
