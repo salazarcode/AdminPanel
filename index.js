@@ -16,7 +16,7 @@ var app = new Vue({
         dominioDetalle: "",
         dominioVacio: {nombre:"", valores: []},
         dominioSeleccionado: {nombre:"", valores: []},
-        api: "http://localhost:8081/creatorsclanapi/public/api",
+        api: "https://andresalteclado.com/api",
         token: "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiYTZkMGJmYWI1ZWUwNjE5ZWE0YTE1OWI2MjIwYTllMzFiYjA5NzM4N2QxY2Y2NTc4NTc1NTRkZGE4MGIyZmQ3YjUzY2IwZWVkYzM1Nzk3ZWYiLCJpYXQiOjE1OTI0MzI2MjYsIm5iZiI6MTU5MjQzMjYyNiwiZXhwIjoxNjIzOTY4NjI2LCJzdWIiOiI2Iiwic2NvcGVzIjpbXX0.j31yqv5Zud49-hO4iNtgEYXKEsxM0XWYN8YiuweCYtYchFGm32WmORhJKOIz5-SgVzPx8Qn1k5ZrA4jllCSEXYukSeTBBBJ7h5q7oYaCKsmkp78QXKKbmze-o_VozL_DeQUK-a9YicPLj1zdjXk5ShuuUY9H4TwTmHULcMMrO2ea35_XicNIhct7omfStC5vuTZ_PpAIZTX3P52SajNnjlB9oNlLz-jvCii0DRlwwpBAMUZgUtXbs6xYSDRhVR5JAh8Zmcb5PCMCRX0x0Ff7QvbTfPqrPMuRfKKAZg2U1ZjYrpbaeej6xbKSoVqQBVYtfidhIvEzzEhKSyLKxMeq-mqFQK6x4X_At02Y6ly6guNMsMwMoswYVFRUTDvF9H5YfbqXJvGZBiN67wtZlL-RnI9U2qSwZZgqjWA_apHq5cyuJ814btgz-LePtD2KwS15eOR0sSY4ODwxPayfGRdeo5UOOoby4QWYf_JNz38ugBCbNs5atZhhIprhAj861J4VJ_00O3sFzP2e7G5C7PT86N8oWwhJRtrMCQlRtMQ12NFb8WFid7X4-kHorcM8PQAs7qD8ENOCxphJDG29hywC91LvyEV0OqmQa_BBfSY5KtGXX9RF_Mp8-scOzvBTfa8IiPejJLf-If7dRqREBg-MBh680KZDgejkLCy3A5VFy6g"
     },
     methods: {
